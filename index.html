@@ -3,10 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Primer Sitio</title>
+  <title>Generador de QR</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+    }
+    img {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>¡Hola, GitHub Pages!</h1>
-  <p>Este es mi primer sitio web usando GitHub Pages.</p>
+  <h1>Generador de Código QR</h1>
+  <form id="qrForm">
+    <input type="text" id="nombre" placeholder="Nombre completo" required>
+    <input type="text" id="codigo1" placeholder="Código 1" required>
+    <input type="text" id="codigo2" placeholder="Código 2" required>
+    <button type="submit">Generar Código QR</button>
+  </form>
+  <div id="qrResult">
+    <h2>Tu Código QR</h2>
+    <img id="qrImage" src="" alt="Código QR" style="display:none;">
+  </div>
+
+  <script>
+    document.getElementById('qrForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío predeterminado del formulario
+
+      // Recoger los datos del formulario
+      var nombre = document.getElementById('nombre').value;
+      var codigo1 = document.getElementById('codigo1').value;
+      var codigo2 = document.getElementById('codigo2').value;
+
+      // Crear el contenido del código QR
+      var contenidoQR = `${nombre} | ${codigo1} | ${codigo2}`;
+
+      // Generar la URL del código QR usando la API de Google Charts
+      var qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(contenidoQR)}`;
+
+      // Mostrar el código QR
+      var qrImage = document.getElementById('qrImage');
+      qrImage.src = qrUrl;
+      qrImage.style.display = 'block'; // Mostrar la imagen del código QR
+
+      // Enviar los datos a Google Sheets mediante Apps Script
+      fetch('TU_URL_DEL_ENDPOINT_DE_APPS_SCRIPT', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `nombre=${encodeURIComponent(nombre)}&codigo1=${encodeURIComponent(codigo1)}&codigo2=${encodeURIComponent(codigo2)}`
+      })
+      .then(response => {
+        console.log('Datos enviados a Google Sheets');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+    });
+  </script>
 </body>
 </html>
