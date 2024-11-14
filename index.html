@@ -61,8 +61,8 @@
       // Crear el contenido del código QR
       var contenidoQR = `${nombre} | ${horario} | ${codigo}`;
 
-      // Generar la URL del código QR usando la API de Google Charts
-      var qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(contenidoQR)}`;
+      // Generar la URL del código QR usando la API de goQR.me
+      var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(contenidoQR)}`;
 
       // Mostrar el código QR
       var qrImage = document.getElementById('qrImage');
