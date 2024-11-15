@@ -79,12 +79,26 @@
       qrImage.src = qrUrl;
       qrImage.style.display = 'block'; // Mostrar la imagen del código QR
 
-      var a = document.createElement('a');
-      a.href = qrUrl;
-      a.download = 'codigo-qr.png'; // Nombre del archivo descargado
-      document.body.appendChild(a); // Añadir el enlace al DOM
-      a.click(); // Simular el clic en el enlace para iniciar la descarga
-      document.body.removeChild(a); // Eliminar el enlace temporal
+      // Verificar si la API de Web Share está disponible
+      if (navigator.canShare && navigator.canShare({ files: [new File([qrUrl], "codigo-qr.png", { type: "image/png" })] })) {
+        // Crear un botón para compartir la imagen si la Web Share API es soportada
+        var shareButton = document.createElement('button');
+        shareButton.textContent = 'Compartir Código QR';
+        shareButton.onclick = function() {
+          navigator.share({
+            files: [new File([qrUrl], "codigo-qr.png", { type: "image/png" })],
+            title: 'Código QR',
+            text: 'Aquí está tu código QR generado.'
+          }).then(() => {
+            console.log('Código QR compartido');
+          }).catch((error) => {
+            console.error('Error al compartir:', error);
+          });
+        };
+        document.body.appendChild(shareButton); // Agregar el botón de compartir a la página
+      } else {
+        alert('La opción de compartir no es compatible con tu navegador.');
+      }
       
     });
   </script>
