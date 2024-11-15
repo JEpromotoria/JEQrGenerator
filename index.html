@@ -144,16 +144,3 @@
   </script>
 </body>
 </html>
-
-
-      // Generar la URL del código QR usando la API de goQR.me
-      var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(contenidoQR)}`;
-
-      // Mostrar el código QR
-      var qrImage = document.getElementById('qrImage');
-      qrImage.src = qrUrl;
-      qrImage.style.display = 'block'; // Mostrar la imagen del código QR
-    });
-  </script>
-</body>
-</html>
