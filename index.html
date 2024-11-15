@@ -85,15 +85,33 @@
         var shareButton = document.createElement('button');
         shareButton.textContent = 'Compartir Código QR';
         shareButton.onclick = function() {
-          navigator.share({
-            files: [new File([qrUrl], "codigo-qr.png", { type: "image/png" })],
-            title: 'Código QR',
-            text: 'Aquí está tu código QR generado.'
-          }).then(() => {
-            console.log('Código QR compartido');
-          }).catch((error) => {
-            console.error('Error al compartir:', error);
-          });
+          // Crear un canvas para convertir la imagen en un Blob
+          var canvas = document.createElement('canvas');
+          var ctx = canvas.getContext('2d');
+          var img = new Image();
+          
+          img.onload = function() {
+            // Establecer dimensiones del canvas al tamaño de la imagen
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            // Convertir el canvas a un Blob
+            canvas.toBlob(function(blob) {
+              // Compartir el archivo Blob usando Web Share API
+              navigator.share({
+                files: [new File([blob], "codigo-qr.png", { type: "image/png" })],
+                title: 'Código QR',
+                text: 'Aquí está tu código QR generado.'
+              }).then(() => {
+                console.log('Código QR compartido');
+              }).catch((error) => {
+                console.error('Error al compartir:', error);
+              });
+            }, 'image/png');
+          };
+          
+          img.src = qrUrl; // Establecer la fuente de la imagen para cargarla en el canvas
         };
         document.body.appendChild(shareButton); // Agregar el botón de compartir a la página
       } else {
