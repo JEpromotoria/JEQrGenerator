@@ -61,6 +61,91 @@
       // Crear el contenido del código QR
       var contenidoQR = `${nombre} | ${horario} | ${codigo}`;
 
+      <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de QR</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+    input, select {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+    }
+    img {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generador de Código QR</h1>
+  <form id="qrForm">
+    <input type="text" id="nombre" placeholder="Nombre completo" required>
+    
+    <!-- Lista desplegable para Horario -->
+    <select id="horario" required>
+      <option value="" disabled selected>Selecciona el horario</option>
+      <option value="Mañana">Mañana</option>
+      <option value="Tarde">Tarde</option>
+      <option value="Noche">Noche</option>
+      <option value="Fines de semana">Fines de semana</option>
+    </select>
+
+    <!-- Campo de texto para Código -->
+    <input type="text" id="codigo" placeholder="Código" required>
+    <button type="submit">Generar Código QR</button>
+  </form>
+  <div id="qrResult">
+    <h2>Tu Código QR</h2>
+    <img id="qrImage" src="" alt="Código QR" style="display:none;">
+  </div>
+
+  <script>
+    document.getElementById('qrForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío predeterminado del formulario
+
+      // Recoger los datos del formulario
+      var nombre = document.getElementById('nombre').value;
+      var horario = document.getElementById('horario').value;
+      var codigo = document.getElementById('codigo').value;
+
+      // Crear el contenido del código QR
+
+      const google_sheets_url = new URL("https://docs.google.com/forms/d/e/1FAIpQLSd5_UxVczjLZv8v0y5rZ6x19SdvIraWcq6PQwBtNta4W0GDUw/viewform");
+      google_sheets_url.searchParams.append("usp", "pp_url");
+      google_sheets_url.searchParams.append("entry.1189865120", "AAA");
+      google_sheets_url.searchParams.append("entry.1893532078", "DOM 12AM");
+      google_sheets_url.searchParams.append("entry.1700166708", "CODE"});
+
+      console.log(google_sheets_url);
+    
+      var contenidoQR = google_sheets_url.toString();
+
+      // Generar la URL del código QR usando la API de goQR.me
+      var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(contenidoQR)}`;
+
+      // Mostrar el código QR
+      var qrImage = document.getElementById('qrImage');
+      qrImage.src = qrUrl;
+      qrImage.style.display = 'block'; // Mostrar la imagen del código QR
+    });
+  </script>
+</body>
+</html>
+
+
       // Generar la URL del código QR usando la API de goQR.me
       var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(contenidoQR)}`;
 
