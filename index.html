@@ -43,6 +43,7 @@
     <!-- Campo de texto para Código -->
     <input type="text" id="codigo" placeholder="Código" required>
     <button type="submit">Generar Código QR</button>
+    
   </form>
   <div id="qrResult">
     <h2>Tu Código QR</h2>
@@ -77,6 +78,14 @@
       var qrImage = document.getElementById('qrImage');
       qrImage.src = qrUrl;
       qrImage.style.display = 'block'; // Mostrar la imagen del código QR
+
+      var a = document.createElement('a');
+      a.href = qrUrl;
+      a.download = 'codigo-qr.png'; // Nombre del archivo descargado
+      document.body.appendChild(a); // Añadir el enlace al DOM
+      a.click(); // Simular el clic en el enlace para iniciar la descarga
+      document.body.removeChild(a); // Eliminar el enlace temporal
+      
     });
   </script>
 </body>
